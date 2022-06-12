@@ -9,10 +9,11 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+from sphinx.ext.apidoc import main as generate_apidoc
+
+sys.path.insert(0, os.path.abspath(os.path.join('..', 'python')))
 
 
 # -- Project information -----------------------------------------------------
@@ -36,6 +37,7 @@ extensions = [
     'sphinxcontrib.images',
     'sphinx.ext.autosectionlabel',
     'sphinx_copybutton',
+    'sphinx.ext.autodoc',
 ]
 
 autosectionlabel_prefix_document=True
@@ -68,4 +70,5 @@ html_static_path = ['_static']
 master_doc = 'index'
 
 def setup(app):
+    generate_apidoc(['-e', '-o', './apidoc', '../python/griddly'])
     app.add_css_file('custom.css')
