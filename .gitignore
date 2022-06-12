@@ -143,3 +143,6 @@ wandb/
 
 # tests
 test-output.xml
+
+# Automatically generated Python API documentation.
+docs/apidoc
