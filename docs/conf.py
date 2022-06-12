@@ -70,5 +70,5 @@ html_static_path = ['_static']
 master_doc = 'index'
 
 def setup(app):
-    generate_apidoc(['-e', '-o', './apidoc', '../python/griddly'])
+    generate_apidoc(['-fMeET', '-o', './apidoc', '../python/griddly'])
     app.add_css_file('custom.css')
