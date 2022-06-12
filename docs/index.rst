@@ -72,3 +72,10 @@ Griddly documentation.
    :name: sec-reference
 
    reference/GDY/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Python API
+   :name: apidoc
+
+   apidoc/modules
