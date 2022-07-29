@@ -163,7 +163,6 @@ class Grid : public std::enable_shared_from_this<Grid> {
 
   // These are public so they can be tested
   virtual const std::unordered_map<std::string, std::shared_ptr<CollisionDetector>>& getCollisionDetectors() const;
-  virtual const std::unordered_map<std::string, ActionTriggerDefinition>& getActionTriggerDefinitions() const;
   virtual const std::unordered_map<std::string, std::unordered_set<std::string>>& getSourceObjectCollisionActionNames() const;
   virtual const std::unordered_map<std::string, std::unordered_set<std::string>>& getObjectCollisionActionNames() const;
 
@@ -231,7 +230,6 @@ class Grid : public std::enable_shared_from_this<Grid> {
   // Collision detectors are grouped by action name (i.e each trigger)
   std::shared_ptr<CollisionDetectorFactory> collisionDetectorFactory_;
   std::unordered_map<std::string, std::shared_ptr<CollisionDetector>> collisionDetectors_;
-  std::unordered_map<std::string, ActionTriggerDefinition> actionTriggerDefinitions_;
 
   // An object that is used if the source of destination location of an action is '_empty'
   // Allows a subset of actions like "spawn" to be performed in empty space.

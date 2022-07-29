@@ -365,7 +365,6 @@ std::unordered_map<uint32_t, int32_t> Grid::processCollisions() {
         spdlog::debug("Collision detector under action {0} for object {1} being queried", actionName, objectName);
         auto collisionDetector = collisionDetectors_.at(actionName);
         auto searchResults = collisionDetector->search(location);
-        auto& actionTriggerDefinition = actionTriggerDefinitions_.at(actionName);
 
         auto objectsInCollisionRange = searchResults.objectSet;
 
@@ -546,8 +545,6 @@ void Grid::addActionTrigger(std::string actionName, ActionTriggerDefinition acti
     collisionObjectActionNames_[destinationObjectName].insert(actionName);
   }
 
-  actionTriggerDefinitions_.insert({actionName, actionTriggerDefinition});
-
   addCollisionDetector(objectNames, actionName, collisionDetector);
 }
 
@@ -714,10 +711,6 @@ void Grid::purgeHistory() {
 
 const std::unordered_map<std::string, std::shared_ptr<CollisionDetector>>& Grid::getCollisionDetectors() const {
   return collisionDetectors_;
-}
-
-const std::unordered_map<std::string, ActionTriggerDefinition>& Grid::getActionTriggerDefinitions() const {
-  return actionTriggerDefinitions_;
 }
 
 const std::unordered_map<std::string, std::unordered_set<std::string>>& Grid::getSourceObjectCollisionActionNames() const {

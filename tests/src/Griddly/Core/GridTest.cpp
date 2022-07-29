@@ -804,15 +804,12 @@ TEST(GridTest, intializeObjectWithCollisionDetection) {
   grid->addObject({3, 3}, mockObjectPtr3);
 
   auto collisionDetectors = grid->getCollisionDetectors();
-  auto actionTriggerDefinitions = grid->getActionTriggerDefinitions();
   auto sourceObjectCollisionActionNames = grid->getSourceObjectCollisionActionNames();
   auto objectCollisionActionNames = grid->getObjectCollisionActionNames();
 
   ASSERT_EQ(collisionDetectors.size(), 3);
   ASSERT_TRUE(collisionDetectors.find(actionName1) != collisionDetectors.end());
   ASSERT_TRUE(collisionDetectors.find(actionName2) != collisionDetectors.end());
-
-  ASSERT_EQ(actionTriggerDefinitions.size(), 3);
 
   ASSERT_EQ(sourceObjectCollisionActionNames.size(), 3);
   ASSERT_THAT(sourceObjectCollisionActionNames["object_1"], UnorderedElementsAre(actionName1, actionName3));
