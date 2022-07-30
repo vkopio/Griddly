@@ -43,20 +43,20 @@ class ObjectGenerator : public std::enable_shared_from_this<ObjectGenerator> {
 
   virtual ~ObjectGenerator() = default;
 
-  virtual void defineNewObject(std::string objectName, char mapCharacter, uint32_t zIdx, std::unordered_map<std::string, uint32_t> variableDefinitions);
-  virtual void defineActionBehaviour(std::string objectName, ActionBehaviourDefinition behaviourDefinition);
-  virtual void addInitialAction(std::string objectName, std::string actionName, uint32_t actionId, uint32_t delay, bool randomize = false);
+  virtual void defineNewObject(const std::string& objectName, char mapCharacter, uint32_t zIdx, const std::unordered_map<std::string, uint32_t>& variableDefinitions);
+  virtual void defineActionBehaviour(const std::string& objectName, const ActionBehaviourDefinition& behaviourDefinition);
+  virtual void addInitialAction(const std::string& objectName, const std::string& actionName, uint32_t actionId, uint32_t delay, bool randomize = false);
 
-  virtual std::shared_ptr<Object> newInstance(std::string objectName, uint32_t playerId, std::shared_ptr<Grid> grid);
+  virtual std::shared_ptr<Object> newInstance(const std::string& objectName, uint32_t playerId, std::shared_ptr<Grid> grid);
   virtual std::shared_ptr<Object> cloneInstance(std::shared_ptr<Object> toClone, std::shared_ptr<Grid> grid);
 
   virtual std::string& getObjectNameFromMapChar(char character);
 
-  virtual void setAvatarObject(std::string objectName);
+  virtual void setAvatarObject(const std::string& objectName);
 
-  virtual void setActionInputDefinitions(std::unordered_map<std::string, ActionInputsDefinition> actionInputDefinitions);
-  virtual void setActionTriggerDefinitions(std::unordered_map<std::string, ActionTriggerDefinition> actionTriggerDefinitions);
-  virtual void setBehaviourProbabilities(std::unordered_map<std::string, std::vector<float>> behaviourProbabilities);
+  virtual void setActionInputDefinitions(const std::unordered_map<std::string, ActionInputsDefinition>& actionInputDefinitions);
+  virtual void setActionTriggerDefinitions(const std::unordered_map<std::string, ActionTriggerDefinition>& actionTriggerDefinitions);
+  virtual void setBehaviourProbabilities(const std::unordered_map<std::string, std::vector<float>>& behaviourProbabilities);
   virtual const std::unordered_map<std::string, ActionInputsDefinition>& getActionInputDefinitions() const;
   virtual const std::unordered_map<std::string, ActionTriggerDefinition>& getActionTriggerDefinitions() const;
   virtual const std::unordered_map<std::string, std::vector<float>>& getBehaviourProbabilities() const;
@@ -76,6 +76,6 @@ class ObjectGenerator : public std::enable_shared_from_this<ObjectGenerator> {
   std::unordered_map<std::string, ActionTriggerDefinition> actionTriggerDefinitions_;
   std::unordered_map<std::string, std::vector<float>> behaviourProbabilities_;
 
-  std::shared_ptr<ObjectDefinition>& getObjectDefinition(std::string objectName);
+  std::shared_ptr<ObjectDefinition>& getObjectDefinition(const std::string& objectName);
 };
 }  // namespace griddly

@@ -26,7 +26,7 @@ ObjectGenerator::ObjectGenerator() {
   objectDefinitions_.insert({"_boundary", std::make_shared<ObjectDefinition>(boundaryObjectDefinition)});
 }
 
-void ObjectGenerator::defineNewObject(std::string objectName, char mapCharacter, uint32_t zIdx, std::unordered_map<std::string, uint32_t> variableDefinitions) {
+void ObjectGenerator::defineNewObject(const std::string& objectName, char mapCharacter, uint32_t zIdx, const std::unordered_map<std::string, uint32_t>& variableDefinitions) {
   spdlog::debug("Defining new object {0}", objectName);
 
   ObjectDefinition objectDefinition;
@@ -40,14 +40,14 @@ void ObjectGenerator::defineNewObject(std::string objectName, char mapCharacter,
 }
 
 void ObjectGenerator::defineActionBehaviour(
-    std::string objectName,
-    ActionBehaviourDefinition behaviourDefinition) {
+    const std::string& objectName,
+    const ActionBehaviourDefinition& behaviourDefinition) {
   spdlog::debug("Defining object {0} behaviour {1}:{2}", objectName, behaviourDefinition.actionName, behaviourDefinition.commandName);
   auto objectDefinition = getObjectDefinition(objectName);
   objectDefinition->actionBehaviourDefinitions.push_back(behaviourDefinition);
 }
 
-void ObjectGenerator::addInitialAction(std::string objectName, std::string actionName, uint32_t actionId, uint32_t delay, bool randomize) {
+void ObjectGenerator::addInitialAction(const std::string& objectName, const std::string& actionName, uint32_t actionId, uint32_t delay, bool randomize) {
   spdlog::debug("Defining object {0} initial action {1}", objectName, actionName);
   auto objectDefinition = getObjectDefinition(objectName);
   objectDefinition->initialActionDefinitions.push_back({actionName, actionId, delay, randomize});
@@ -140,7 +140,7 @@ std::shared_ptr<Object> ObjectGenerator::cloneInstance(std::shared_ptr<Object> t
   return initializedObject;
 }
 
-std::shared_ptr<Object> ObjectGenerator::newInstance(std::string objectName, uint32_t playerId, std::shared_ptr<Grid> grid) {
+std::shared_ptr<Object> ObjectGenerator::newInstance(const std::string& objectName, uint32_t playerId, std::shared_ptr<Grid> grid) {
   spdlog::debug("Creating new object {0}.", objectName);
 
   auto objectDefinition = getObjectDefinition(objectName);
@@ -224,19 +224,19 @@ std::shared_ptr<Object> ObjectGenerator::newInstance(std::string objectName, uin
   return initializedObject;
 }
 
-void ObjectGenerator::setAvatarObject(std::string objectName) {
+void ObjectGenerator::setAvatarObject(const std::string& objectName) {
   avatarObject_ = objectName;
 }
 
-void ObjectGenerator::setActionInputDefinitions(std::unordered_map<std::string, ActionInputsDefinition> actionInputsDefinitions) {
+void ObjectGenerator::setActionInputDefinitions(const std::unordered_map<std::string, ActionInputsDefinition>& actionInputsDefinitions) {
   actionInputsDefinitions_ = actionInputsDefinitions;
 }
 
-void ObjectGenerator::setActionTriggerDefinitions(std::unordered_map<std::string, ActionTriggerDefinition> actionTriggerDefinitions) {
+void ObjectGenerator::setActionTriggerDefinitions(const std::unordered_map<std::string, ActionTriggerDefinition>& actionTriggerDefinitions) {
   actionTriggerDefinitions_ = actionTriggerDefinitions;
 }
 
-void ObjectGenerator::setBehaviourProbabilities(std::unordered_map<std::string, std::vector<float>> behaviourProbabilities) {
+void ObjectGenerator::setBehaviourProbabilities(const std::unordered_map<std::string, std::vector<float>>& behaviourProbabilities) {
   behaviourProbabilities_ = behaviourProbabilities;
 }
 
@@ -265,7 +265,7 @@ std::string &ObjectGenerator::getObjectNameFromMapChar(char character) {
   return objectCharIt->second;
 }
 
-std::shared_ptr<ObjectDefinition> &ObjectGenerator::getObjectDefinition(std::string objectName) {
+std::shared_ptr<ObjectDefinition> &ObjectGenerator::getObjectDefinition(const std::string& objectName) {
   auto objectDefinitionIt = objectDefinitions_.find(objectName);
   if (objectDefinitionIt == objectDefinitions_.end()) {
     throw std::invalid_argument(fmt::format("Object {0} not defined.", objectName));
