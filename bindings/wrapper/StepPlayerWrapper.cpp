@@ -136,7 +136,7 @@ class Py_StepPlayerWrapper {
     if (actionResult.terminated) {
       py::dict py_playerResults;
 
-      for (auto playerRes : actionResult.playerStates) {
+      for (const auto& playerRes : actionResult.playerStates) {
         std::string playerStatusString;
         switch (playerRes.second) {
           case TerminationState::WIN:

@@ -125,7 +125,7 @@ BehaviourResult Object::onActionDst(std::shared_ptr<Action> action, std::vector<
 
 std::unordered_map<std::string, std::shared_ptr<ObjectVariable>> Object::resolveVariables(CommandArguments &commandArguments, bool allowStrings) const {
   std::unordered_map<std::string, std::shared_ptr<ObjectVariable>> resolvedVariables;
-  for (auto commandArgument : commandArguments) {
+  for (const auto& commandArgument : commandArguments) {
     resolvedVariables[commandArgument.first] = std::make_shared<ObjectVariable>(ObjectVariable(commandArgument.second, availableVariables_, allowStrings));
   }
 
@@ -190,7 +190,7 @@ BehaviourFunction Object::instantiateConditionalBehaviour(const std::string &com
 
   std::vector<BehaviourFunction> conditionalBehaviours;
 
-  for (auto subCommand : subCommands) {
+  for (const auto& subCommand : subCommands) {
     auto subCommandName = subCommand.first;
     auto subCommandVariables = subCommand.second;
 
@@ -220,7 +220,7 @@ BehaviourFunction Object::instantiateConditionalBehaviour(const std::string &com
  * @return BehaviourResult 
  */
 BehaviourResult Object::executeBehaviourFunctionList(std::unordered_map<uint32_t, int32_t> &rewardAccumulator, const std::vector<BehaviourFunction> &behaviourList, const std::shared_ptr<Action> &action) const {
-  for (auto &behaviour : behaviourList) {
+  for (const auto &behaviour : behaviourList) {
     auto result = behaviour(action);
 
     accumulateRewards(rewardAccumulator, result.rewards);
@@ -782,7 +782,7 @@ std::vector<std::shared_ptr<Action>> Object::getInitialActions(std::shared_ptr<A
     fallbackInputMapping.metaData = originatingAction->getMetaData();
   }
 
-  for (auto actionDefinition : initialActionDefinitions_) {
+  for (const auto& actionDefinition : initialActionDefinitions_) {
     const auto &actionInputsDefinitions = objectGenerator_->getActionInputDefinitions();
     const auto &actionInputsDefinition = actionInputsDefinitions.at(actionDefinition.actionName);
 

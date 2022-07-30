@@ -35,7 +35,7 @@ ActionResult TurnBasedGameProcess::performActions(uint32_t playerId, std::vector
   auto stepRewards = grid_->performActions(playerId, actions);
 
   // rewards resulting from player actions
-  for (auto valueIt : stepRewards) {
+  for (const auto& valueIt : stepRewards) {
     spdlog::debug("Accumulating step reward for player {0}. {1} += {2}", valueIt.first, accumulatedRewards_[valueIt.first], valueIt.second);
   }
   accumulateRewards(accumulatedRewards_, stepRewards);
@@ -45,7 +45,7 @@ ActionResult TurnBasedGameProcess::performActions(uint32_t playerId, std::vector
     auto delayedRewards = grid_->update();
 
     // rewards could come from delayed actions that are run at a particular time step
-    for (auto valueIt : delayedRewards) {
+    for (const auto& valueIt : delayedRewards) {
       spdlog::debug("Accumulating delayed reward for player {0}. {1} += {2}", valueIt.first, accumulatedRewards_[valueIt.first], valueIt.second);
     }
     accumulateRewards(accumulatedRewards_, delayedRewards);
@@ -55,7 +55,7 @@ ActionResult TurnBasedGameProcess::performActions(uint32_t playerId, std::vector
     terminationState = terminationResult.playerStates;
     requiresReset_ = terminationResult.terminated;
 
-    for (auto valueIt : terminationResult.rewards) {
+    for (const auto& valueIt : terminationResult.rewards) {
       spdlog::debug("Accumulating termination reward for player {0}. {1} += {2}", valueIt.first, accumulatedRewards_[valueIt.first], valueIt.second);
     }
     accumulateRewards(accumulatedRewards_, terminationResult.rewards);
@@ -83,8 +83,8 @@ std::shared_ptr<TurnBasedGameProcess> TurnBasedGameProcess::clone() {
 
   clonedGrid->setPlayerCount(grid_->getPlayerCount());
 
-  auto gridHeight = grid_->getHeight();
-  auto gridWidth = grid_->getWidth();
+  const auto& gridHeight = grid_->getHeight();
+  const auto& gridWidth = grid_->getWidth();
   clonedGrid->resetMap(gridWidth, gridHeight);
 
   auto objectGenerator = gdyFactory_->getObjectGenerator();

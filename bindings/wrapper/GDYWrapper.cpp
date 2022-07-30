@@ -46,7 +46,7 @@ class Py_GDYWrapper {
   py::dict getActionInputMappings() const {
     const auto& actionInputsDefinitions = gdyFactory_->getActionInputsDefinitions();
     py::dict py_actionInputsDefinitions;
-    for (auto actionInputDefinitionPair : actionInputsDefinitions) {
+    for (const auto& actionInputDefinitionPair : actionInputsDefinitions) {
       auto actionName = actionInputDefinitionPair.first;
       auto actionInputDefinition = actionInputDefinitionPair.second;
       
@@ -61,7 +61,7 @@ class Py_GDYWrapper {
       py_actionInputsDefinition["MapToGrid"] = mapToGrid;
 
       py::dict py_actionInputMappings;
-      for (auto inputMapping : actionInputDefinition.inputMappings) {
+      for (const auto& inputMapping : actionInputDefinition.inputMappings) {
         py::dict py_actionInputMapping;
         auto inputId = inputMapping.first;
         auto actionInputMapping = inputMapping.second;

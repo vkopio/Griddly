@@ -21,7 +21,7 @@ class ValidActionNode {
 
   static py::dict toPyDict(std::shared_ptr<ValidActionNode> node) {
     py::dict py_dict;
-    for (auto child : node->children) {
+    for (const auto& child : node->children) {
       py_dict[py::cast(child.first)] = toPyDict(child.second);
     }
 
@@ -74,11 +74,11 @@ class Py_GameWrapper {
     spdlog::debug("Building tree, {0} actions", externalActionNames.size());
     for (int playerId = 1; playerId <= playerCount_; playerId++) {
       std::shared_ptr<ValidActionNode> node = std::make_shared<ValidActionNode>(ValidActionNode());
-      for (auto actionNamesAtLocation : gameProcess_->getAvailableActionNames(playerId)) {
+      for (const auto& actionNamesAtLocation : gameProcess_->getAvailableActionNames(playerId)) {
         auto location = actionNamesAtLocation.first;
         auto actionNames = actionNamesAtLocation.second;
 
-        for (auto actionName : actionNames) {
+        for (const auto& actionName : actionNames) {
           spdlog::debug("[{0}] available at location [{1}, {2}]", actionName, location.x, location.y);
 
           std::shared_ptr<ValidActionNode> treePtr = node;
@@ -115,7 +115,7 @@ class Py_GameWrapper {
                 treePtr = treePtr->children[actionTypeId];
               }
 
-              for (auto id : actionIdsForName) {
+              for (const auto& id : actionIdsForName) {
                 treePtr->add(id);
               }
               treePtr->add(0);
@@ -133,7 +133,7 @@ class Py_GameWrapper {
     auto availableActionNames = gameProcess_->getAvailableActionNames(playerId);
 
     py::dict py_availableActionNames;
-    for (auto availableActionNamesPair : availableActionNames) {
+    for (const auto& availableActionNamesPair : availableActionNames) {
       auto location = availableActionNamesPair.first;
       auto actionNames = availableActionNamesPair.second;
 
@@ -148,7 +148,7 @@ class Py_GameWrapper {
     spdlog::debug("Getting available action ids for location [{0},{1}]", location[0], location[1]);
 
     py::dict py_availableActionIds;
-    for (auto actionName : actionNames) {
+    for (const auto& actionName : actionNames) {
       auto actionInputsDefinitions = gdyFactory_->getActionInputsDefinitions();
       if (actionInputsDefinitions.find(actionName) != actionInputsDefinitions.end()) {
         auto locationVec = glm::ivec2{location[0], location[1]};
@@ -315,17 +315,17 @@ class Py_GameWrapper {
     py_state["Hash"] = state.hash;
 
     py::dict py_globalVariables;
-    for (auto varIt : state.globalVariables) {
+    for (const auto& varIt : state.globalVariables) {
       py_globalVariables[varIt.first.c_str()] = varIt.second;
     }
 
     py_state["GlobalVariables"] = py_globalVariables;
 
     py::list py_objects;
-    for (auto objectInfo : state.objectInfo) {
+    for (const auto& objectInfo : state.objectInfo) {
       py::dict py_objectInfo;
       py::dict py_objectVariables;
-      for (auto varIt : objectInfo.variables) {
+      for (const auto& varIt : objectInfo.variables) {
         py_objectVariables[varIt.first.c_str()] = varIt.second;
       }
 
@@ -349,7 +349,7 @@ class Py_GameWrapper {
     std::vector<std::string> globalVariableNames;
     auto globalVariables = gameProcess_->getGrid()->getGlobalVariables();
 
-    for (auto globalVariableIt : globalVariables) {
+    for (const auto& globalVariableIt : globalVariables) {
       globalVariableNames.push_back(globalVariableIt.first);
     }
     return globalVariableNames;
@@ -363,12 +363,12 @@ class Py_GameWrapper {
     py::dict py_globalVariables;
     auto globalVariables = gameProcess_->getGrid()->getGlobalVariables();
 
-    for (auto variableNameIt : variables) {
+    for (const auto& variableNameIt : variables) {
       std::unordered_map<int32_t, int32_t> resolvedGlobalVariableMap;
 
       auto globalVariableMap = globalVariables[variableNameIt];
 
-      for (auto playerVariableIt : globalVariableMap) {
+      for (const auto& playerVariableIt : globalVariableMap) {
         resolvedGlobalVariableMap.insert({playerVariableIt.first, *playerVariableIt.second});
       }
 
@@ -386,7 +386,7 @@ class Py_GameWrapper {
         py::dict py_event;
 
         py::dict rewards;
-        for (auto& reward : historyEvent.rewards) {
+        for (const auto& reward : historyEvent.rewards) {
           rewards[py::cast(reward.first)] = reward.second;
         }
 
